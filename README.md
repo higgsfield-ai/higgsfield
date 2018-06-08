@@ -9,7 +9,7 @@ The deep reinforcement learning community has made several improvements to the [
 
 1. Advantage Actor Critic (A2C)
  - [actor-critic.ipynb](https://github.com/higgsfield/RL-Adventure-2/blob/master/1.actor-critic.ipynb)
- - [A3C Paper](https://www.cs.toronto.edu/~vmnih/docs/dqn.pdf) 
+ - [A3C Paper](https://arxiv.org/pdf/1602.01783.pdf) 
  - [OpenAI blog](https://blog.openai.com/baselines-acktr-a2c/#a2canda3c)
   2. High-Dimensional Continuous Control Using Generalized Advantage Estimation
   - [gae.ipynb](https://github.com/higgsfield/RL-Adventure-2/blob/master/2.gae.ipynb)
