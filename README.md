@@ -19,11 +19,11 @@ Higgsfield is an open-source, fault-tolerant, and highly scalable cluster manage
 
 Higgsfield serves as a cluster workload manager and machine learning framework with five primary functions:
 
-Allocating exclusive and non-exclusive access to compute resources (nodes) to users for their training tasks.
-Supporting ZeRO-3 deepspeed API and fully sharded data parallel API of PyTorch, enabling efficient sharding for trillion-parameter models.
-Offering a framework for initiating, executing, and monitoring the training of large neural networks on allocated nodes.
-Managing resource contention by maintaining a queue for running experiments.
-Facilitating continuous integration of machine learning development through seamless integration with GitHub and GitHub Actions.
+1. Allocating exclusive and non-exclusive access to compute resources (nodes) to users for their training tasks.
+2. Supporting ZeRO-3 deepspeed API and fully sharded data parallel API of PyTorch, enabling efficient sharding for trillion-parameter models.
+3. Offering a framework for initiating, executing, and monitoring the training of large neural networks on allocated nodes.
+4. Managing resource contention by maintaining a queue for running experiments.
+5. Facilitating continuous integration of machine learning development through seamless integration with GitHub and GitHub Actions.
 Higgsfield streamlines the process of training massive models and empowers developers with a versatile and robust toolset.
 
 ## Train example
