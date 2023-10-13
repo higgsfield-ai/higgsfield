@@ -82,9 +82,21 @@ Feel free to open an issue if you have any problems with other clouds.
 
 #### [Setup](./setup.md)
 Here you can find the quick start guide on how to setup your nodes and start training.
+- [Initialize the project](https://github.com/higgsfield/higgsfield/blob/main/setup.md#initialize-the-project)
+- [Setup the environment](https://github.com/higgsfield/higgsfield/blob/main/setup.md#setup-the-environment)
+- [Setup git](https://github.com/higgsfield/higgsfield/blob/main/setup.md#setup-git)
+- [Time to setup your nodes!](https://github.com/higgsfield/higgsfield/blob/main/setup.md#time-to-setup-your-nodes)
+- [Run your very first experiment](https://github.com/higgsfield/higgsfield/blob/main/setup.md#run-your-very-first-experiment)
+- [Fasten your seatbelt, it's time to deploy!](https://github.com/higgsfield/higgsfield/blob/main/setup.md#fasten-your-seatbelt-its-time-to-deploy)
 
 #### [Tutorial](./tutorial.md)
 API for common tasks in Large Language Models training. 
+- [Working with distributed model](https://github.com/higgsfield/higgsfield/blob/main/tutorial.md#working-with-distributed-model)
+- [Preparing Data](https://github.com/higgsfield/higgsfield/blob/main/tutorial.md#preparing-data)
+- [Optimizing the Model Parameters](https://github.com/higgsfield/higgsfield/blob/main/tutorial.md#optimizing-the-model-parameters)
+- [Saving Model](https://github.com/higgsfield/higgsfield/blob/main/tutorial.md#saving-model)
+- [Training stabilization techniques](https://github.com/higgsfield/higgsfield/blob/main/tutorial.md#training-stabilization-techniques)
+- [Monitoring](https://github.com/higgsfield/higgsfield/blob/main/tutorial.md#monitoring)
 
 | Platform | Purpose | Estimated Response Time | Support Level |
 | -------- | ------- | ----------------------- | ------------- |
