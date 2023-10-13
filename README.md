@@ -3,18 +3,28 @@ Now you can setup LLaMa2 70b SFT in 5 minutes.
 
 [![PyPI version](https://badge.fury.io/py/higgsfield.svg)](https://badge.fury.io/py/higgsfield)
 
+
+# PyTorch Distributed Fault-Tolerant Framework for Training Large Language Models
+
+Training neural networks with billions to trillions of parameters involves three core components: 
+the computation graph of the neural network in PyTorch,
+model-parallel training with techniques like ZeRO-3 or FSDP, and fault-tolerant cluster management. Our comprehensive, end-to-end framework seamlessly integrates all of these components, making it accessible to both junior developers and experienced staff engineers, enabling painless, multi-node model training with ease.
+
 ## Install
 ```bash
 $ pip install higgsfield
 ```
 
-## Why?
-- **easy to setup** - 5 minutes to setup your environment and start training on your nodes.
-- **easy to use** - 5 lines of code to define an experiment.
-- **easy to scale** - 5 minutes to add a new node.
-- **easy to reproduce** - 5 minutes to reproduce an experiment.
-- **easy to track** - 5 minutes to track your experiments.
+Higgsfield is an open-source, fault-tolerant, and highly scalable cluster management and machine learning workflow solution designed for training massive trillion-parameter models, such as Large Language Models (LLMs). It operates independently, requiring no additional system or kernel dependencies.
 
+Higgsfield serves as a cluster workload manager and machine learning framework with five primary functions:
+
+Allocating exclusive and non-exclusive access to compute resources (nodes) to users for their training tasks.
+Supporting ZeRO-3 deepspeed API and fully sharded data parallel API of PyTorch, enabling efficient sharding for trillion-parameter models.
+Offering a framework for initiating, executing, and monitoring the training of large neural networks on allocated nodes.
+Managing resource contention by maintaining a queue for running experiments.
+Facilitating continuous integration of machine learning development through seamless integration with GitHub and GitHub Actions.
+Higgsfield streamlines the process of training massive models and empowers developers with a versatile and robust toolset.
 
 ## Train example
 That's all you have to do in order to train LLaMa in a distributed setting:
