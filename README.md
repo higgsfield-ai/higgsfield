@@ -1,7 +1,7 @@
 # higgsfield - multi node training without crying
 
 
-Higgsfield is an open-source, fault-tolerant, highly scalable cluster management, and a machine learning framework designed for training models with billions to trillions of parameters,such as Large Language Models (LLMs).
+Higgsfield is an open-source, fault-tolerant, highly scalable cluster management, and a machine learning framework designed for training models with billions to trillions of parameters, such as Large Language Models (LLMs).
 
 [![PyPI version](https://badge.fury.io/py/higgsfield.svg)](https://badge.fury.io/py/higgsfield)
 
