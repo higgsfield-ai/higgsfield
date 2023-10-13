@@ -5,6 +5,7 @@ Higgsfield is an open-source, fault-tolerant, highly scalable cluster management
 
 [![PyPI version](https://badge.fury.io/py/higgsfield.svg)](https://badge.fury.io/py/higgsfield)
 
+![architecture](https://raw.githubusercontent.com/higgsfield/higgsfield/main/docs/static/architecture.png)
 
 Higgsfield serves as a cluster workload manager and machine learning framework with five primary functions:
 
@@ -53,8 +54,6 @@ def train(params):
 ```
 
 ## How it's all done?
-
-![architecture](https://raw.githubusercontent.com/higgsfield/higgsfield/main/docs/static/architecture.png)
 
 1. We install all the required tools in your server (Docker, your project's deploy keys, higgsfield binary).
 2. Then we generate deploy & run workflows for your experiments.
