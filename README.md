@@ -45,7 +45,7 @@ def train(params):
 ```
 
 ## How it's all done?
-![architecture](./docs/static/architecture.png)
+![architecture](https://raw.githubusercontent.com/higgsfield/higgsfield/main/docs/static/architecture.png)
 1. We install all the required tools in your server (Docker, your project's deploy keys, higgsfield binary).
 2. Then we generate deploy & run workflows for your experiments.
 3. As soon as it gets into Github, it will automatically deploy your code on your nodes.
