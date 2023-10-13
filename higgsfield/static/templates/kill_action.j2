@@ -1,0 +1,47 @@
+{{ header }}
+name: Kill training experiments
+
+on:
+  workflow_dispatch:
+    inputs:
+      experiment_name:
+        description: 'Kill training on which experiment, if not specified kill all'
+        required: true
+
+concurrency:
+  cancel-in-progress: false
+  group: main
+
+jobs:
+  kill-training:
+    name: Kill training
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set credentials
+        run: |
+          pip install git+https://github.com/ml-doom/demo.git@main --quiet
+          
+          echo "SSH_KEY='NOTHING'" >> env
+          eval "$(jq -r '["key", "user", "port", "hosts"] as $names | . as $json | $names[] as $name | "export \($name | ascii_upcase | @sh)=\($json[$name] | @sh)"' < <(higgsfield ci get-ssh-details))" 
+          
+          echo "HOSTS=$HOSTS" >> $GITHUB_ENV
+          echo "USER=$USER" >> $GITHUB_ENV
+          echo "PORT=$PORT" >> $GITHUB_ENV
+      - name: Send kill signal to invoker
+        uses: appleboy/ssh-action@v1.0.0
+        env: {% raw %}
+          HOSTS: ${{ env.HOSTS }}
+          USER: ${{ env.USER }}
+          PORT: ${{ env.PORT }}      
+        with:
+          host: ${{ env.HOSTS }}
+          username: ${{ env.USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ env.PORT }}
+          script: |
+            {% endraw %}
+            cd ~/higgsfield/{{ project_name }}
+            invoker experiment kill --project_name {{ project_name }} {% raw %} --hosts ${{ env.HOSTS }} --experiment_name ${{ github.event.inputs.experiment_name }} {% endraw %}
+

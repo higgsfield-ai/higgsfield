@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "higgsfield"
+version = "0.0.1"
+description = ""
+authors = ["Yerzat Dulat <yerzat@higgsfield.ai>", "Anwar Omar <anwar@higgsfield.ai>"]
+readme = "README.md"
+include = ["static/*"]
+license = "Apache-2.0"
+
+[tool.poetry.dependencies]
+python = "^3.8.13"
+click = "^8.1.7"
+pyyaml = "^6.0.1"
+paramiko = "^3.3.1"
+fabric = "^3.2.2"
+asyncer = "^0.0.2"
+jinja2 = "^3.1.2"
+python-dotenv = "^1.0.0"
+unidecode = "^1.3.7"
+cryptography = "^41.0.4"
+asyncssh = {extras = ["bcrypt", "fido2", "libnacl", "pyopenssl"], version = "^2.14.0"}
+bcrypt = "^4.0.1"
+fido2 = "^1.1.2"
+libsodium = "^2.6.1"
+pyopenssl = "^23.2.0"
+
+[tool.poetry.scripts]
+higgsfield = "higgsfield.internal.main:cli"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

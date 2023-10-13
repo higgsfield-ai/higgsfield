@@ -1,0 +1,74 @@
+{{ header }}
+name: Run {{ experiment_name }}
+
+on:
+{% if params|length == 0 %}
+  workflow_dispatch:
+    inputs:
+      nothing:
+        description: 'Just run the experiment, no params supplied!'
+{% else %}
+  workflow_dispatch:
+    inputs:
+      run_name: 
+        description: 'Name of the run, if not set will be chosen randomly, if exists will be reused'
+        required: false
+      {% for param in params %}
+      {{ param }}{% endfor %}
+{% endif %}
+
+    
+concurrency:
+  cancel-in-progress: false
+  group: main
+
+{% raw %}
+jobs:
+  run-training:
+    name: Run experiment
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Install invoker
+      run: |
+        wget https://github.com/ml-doom/invoker/releases/download/latest/invoker-latest-linux-amd64.tar.gz
+        tar -xvf invoker-latest-linux-amd64.tar.gz
+        sudo mv invoker /usr/bin/invoker
+        rm invoker-latest-linux-amd64.tar.gz
+    - name: Set Port and Run Name
+      run: |
+          pip install git+https://github.com/ml-doom/demo.git@main --quiet
+          
+          echo "SSH_KEY='NOTHING'" >> env
+          eval "$(jq -r '["key", "user", "port", "hosts"] as $names | . as $json | $names[] as $name | "export \($name | ascii_upcase | @sh)=\($json[$name] | @sh)"' < <(higgsfield ci get-ssh-details))" 
+          
+          echo "HOSTS=$HOSTS" >> $GITHUB_ENV
+          echo "USER=$USER" >> $GITHUB_ENV
+          echo "PORT=$PORT" >> $GITHUB_ENV
+
+          echo "CHOSEN_PORT=$(invoker random-port)" >> $GITHUB_ENV
+          echo "CHOSEN_RUN_NAME=$(invoker random-name)" >> $GITHUB_ENV
+          echo "NPROC_PER_NODE=$(higgsfield ci get-nproc-per-node)" >> $GITHUB_ENV
+    - name: Run experiment
+      uses: appleboy/ssh-action@v1.0.0
+      env: 
+        RUN_PORT: ${{ env.CHOSEN_PORT }}
+        RUN_NAME: ${{ github.event.inputs.run_name || env.CHOSEN_RUN_NAME }}
+        NPROC_PER_NODE: ${{ env.NPROC_PER_NODE }}
+        HOSTS: ${{ env.HOSTS }}
+        USER: ${{ env.USER }}
+        PORT: ${{ env.PORT }}
+      with:
+        host: ${{ env.HOSTS }}
+        username: ${{ env.USER }}
+        key: ${{ secrets.SSH_KEY }}
+        port: ${{ env.PORT }}
+        script: |
+          cd ~/higgsfield/{% endraw %}{{ project_name }}
+          echo "SSH_KEY=NOTHING" > env
+{{ env_gen }}
+          invoker experiment run --project_name {{ project_name }} --experiment_name {{ experiment_name }} {% raw %} --run_name ${{ env.RUN_NAME }} --port ${{ env.RUN_PORT }} --nproc_per_node ${{ env.NPROC_PER_NODE }} --hosts ${{ env.HOSTS }} {% endraw %} {{ rest }}
+
+
+

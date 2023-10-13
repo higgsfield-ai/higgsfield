@@ -1,0 +1,52 @@
+{{ header }}
+name: Deploy Experiments
+
+on: 
+  push:
+    branches:
+      - main
+
+concurrency:
+  cancel-in-progress: false
+  group: main
+{% raw %}
+jobs:
+  deploy:
+    name: Deploy Experiments
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Set credentials
+      run: |
+          pip install git+https://github.com/ml-doom/demo.git@main --quiet
+
+          echo "SSH_KEY='NOTHING'" >> env
+          eval "$(jq -r '["key", "user", "port", "hosts"] as $names | . as $json | $names[] as $name | "export \($name | ascii_upcase | @sh)=\($json[$name] | @sh)"' < <(higgsfield ci get-ssh-details))"          
+          
+          echo "HOSTS=$HOSTS" >> $GITHUB_ENV
+          echo "USER=$USER" >> $GITHUB_ENV
+          echo "PORT=$PORT" >> $GITHUB_ENV
+    - name: Deploy code
+      uses: appleboy/ssh-action@v1.0.0
+      env:
+        HOSTS: ${{ env.HOSTS }}
+        USER: ${{ env.USER }}
+        PORT: ${{ env.PORT }}      
+      with:
+        host: ${{ env.HOSTS }}
+        username: ${{ env.USER }}
+        key: ${{ secrets.SSH_KEY }}
+        port: ${{ env.PORT }}
+        sync: true {% endraw %}
+        script: | 
+          mkdir -p ~/higgsfield/
+          cd ~/higgsfield
+          [ -d ~/higgsfield/{{ project_name }} ] && \
+           (cd ~/higgsfield/{{ project_name }} && \
+           git fetch --all && \
+           git reset --hard origin/main && \
+           git pull origin main) || git clone {{ keyed_repo_url }} {{ project_name }} || rm -rf ~/higgsfield/{{ project_name }} && git clone {{ keyed_repo_url }} {{ project_name }}
+          
+          echo "SSH_KEY=NOTHING" > env
+{{ env_gen }}
