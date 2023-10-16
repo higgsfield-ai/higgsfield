@@ -18,7 +18,7 @@ Higgsfield serves as a cluster workload manager and machine learning framework w
 ## Install
 
 ```bash
-$ pip install higgsfield==0.0.2+post1
+$ pip install higgsfield==0.0.3
 ```
 
 

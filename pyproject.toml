@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "higgsfield"
-version = "0.0.2+post1"
+version = "0.0.3"
 description = ""
 authors = ["Yerzat Dulat <yerzat@higgsfield.ai>", "Anwar Omar <anwar@higgsfield.ai>"]
 readme = "README.md"

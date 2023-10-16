@@ -1,0 +1,34 @@
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+jobs:
+  smoketest:
+    name: Smoketest
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Python 3.8
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
+      - name: Install higgsfield
+        run: |
+          git_hash=$(git rev-parse --short "$GITHUB_SHA")
+          python -m pip install git+https://github.com/higgsfield/higgsfield.git@$git_hash
+      - name: Run smoketest
+        run: |
+          mkdir -p /tmp/smoketest & cd /tmp/smoketest
+
+          higgsfield init some_project
+          cd some_project
+
+          git init
+          git remote add origin git@github.com:user/project.git
+
+          higgsfield build-experiments
+
+          # TODO: compare the generated files.
