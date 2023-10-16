@@ -1,3 +1,5 @@
+name: Basic Init Smoketest
+
 on:
   push:
     branches:
