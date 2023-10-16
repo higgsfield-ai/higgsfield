@@ -21,7 +21,7 @@ jobs:
           python -m pip install git+https://github.com/higgsfield/higgsfield.git@$git_hash
       - name: Run smoketest
         run: |
-          mkdir -p /tmp/smoketest & cd /tmp/smoketest
+          mkdir -p /tmp/smoketest && cd /tmp/smoketest
 
           higgsfield init some_project
           cd some_project
