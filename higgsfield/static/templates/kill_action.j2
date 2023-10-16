@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Set credentials
         run: |
-          pip install git+https://github.com/ml-doom/demo.git@main --quiet
+          pip install higgsfield==0.0.2+post1 --quiet
           
           echo "SSH_KEY='NOTHING'" >> env
           eval "$(jq -r '["key", "user", "port", "hosts"] as $names | . as $json | $names[] as $name | "export \($name | ascii_upcase | @sh)=\($json[$name] | @sh)"' < <(higgsfield ci get-ssh-details))" 

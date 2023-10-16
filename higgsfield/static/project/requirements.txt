@@ -3,4 +3,4 @@ wandb==0.15.11
 polars==0.19.3
 peft==0.5.0
 datasets==2.14.5
-higgsfield==0.0.2
+higgsfield
