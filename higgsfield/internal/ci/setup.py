@@ -11,10 +11,12 @@ from higgsfield.internal.experiment.builder import header
 
 
 docker_install_script = '''/bin/bash -c "$(curl -fsSL https://gist.githubusercontent.com/arpanetus/1c1210b9e432a04dcfb494725a407a70/raw/5d47baa19b7100261a2368a43ace610528e0dfa2/install.sh)"'''
-invoker_install_script = """wget https://github.com/ml-doom/invoker/releases/download/latest/invoker-latest-linux-amd64.tar.gz && \
-        tar -xvf invoker-latest-linux-amd64.tar.gz && \
+
+def invoker_install_script(tag: str) -> str:
+    return f"""wget https://github.com/ml-doom/invoker/releases/download/{tag}/invoker-{tag}-linux-amd64.tar.gz && \
+        tar -xvf invoker-{tag}-linux-amd64.tar.gz && \
         sudo mv invoker /usr/bin/invoker && \
-        rm invoker-latest-linux-amd64.tar.gz"""
+        rm invoker-{tag}-linux-amd64.tar.gz"""
 
 
 def deploy_key_script(key: str, project_name: str, deploy_key_string: str):
@@ -32,11 +34,13 @@ class Setup:
     path: str
     deploy_key: str
     project_path: Path
+    invoker_tag: str
 
     def __init__(
         self,
         app_config: AppConfig,
         project_path: Path,
+        invoker_tag: str,
     ):
         self.app_config = app_config
 
@@ -44,6 +48,7 @@ class Setup:
             raise ValueError(reason)
 
         self.project_path = project_path
+        self.invoker_tag = invoker_tag
 
     def create_ssh_key_file(self):
         if self.app_config.key is None:
@@ -97,7 +102,7 @@ class Setup:
         print("\n\n\nINSTALLING INVOKER\n\n\n")
         to_run = []
         for conn in self.connections:
-            to_run.append(printer(await conn.run(invoker_install_script)))
+            to_run.append(printer(await conn.run(invoker_install_script(self.invoker_tag))))
 
         await asyncio.gather(*to_run)
 
@@ -111,6 +116,15 @@ class Setup:
             to_run.append(printer(await conn.run(dk_script)))
     
         await asyncio.gather(*to_run)
+
+        # close connections
+        for conn in self.connections:
+            conn.close()
+
+
+        # re-establish connections
+        await self.establish_connections()
+
         
         print("\n\n\nPULLING BASE DOCKER IMAGE\n\n\n")
         to_run = []
