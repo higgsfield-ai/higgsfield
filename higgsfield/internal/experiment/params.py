@@ -103,7 +103,7 @@ class Param:
                 f"{indent}description: {remove_trailing_yaml(safe_dump(self.description))}"
             )
         to_join.append(f"{indent}required: {self.required}")
-        if self.default:
+        if self.default is not None:
             d = self.default
             if type(self.default) == str:
                 d = remove_trailing_yaml(safe_dump(self.default))
