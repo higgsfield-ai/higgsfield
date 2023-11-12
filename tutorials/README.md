@@ -11,12 +11,12 @@ Before uploading your dataset to Hugging Face, please make sure that it is in on
 
 We provide a tutorial on how to convert your dataset to each format.
 
-- **Prompt Completion format** (https://github.com/higgsfield-ai/higgsfield/tutorials/prompt_completion.ipynb)
-- **ChatGPT format** (https://github.com/higgsfield-ai/higgsfield/tutorials/chatgpt.ipynb)
-- **Plain Text format** (https://github.com/higgsfield-ai/higgsfield/tutorials/text_format.ipynb)
+- **Prompt Completion format** ([https://github.com/higgsfield-ai/higgsfield/tutorials/prompt_completion.ipynb](https://github.com/higgsfield-ai/higgsfield/blob/main/tutorials/prompt_completion.ipynb))
+- **ChatGPT format** ([https://github.com/higgsfield-ai/higgsfield/tutorials/chatgpt.ipynb](https://github.com/higgsfield-ai/higgsfield/blob/main/tutorials/chatgpt.ipynb))
+- **Plain Text format** ([https://github.com/higgsfield-ai/higgsfield/tutorials/text_format.ipynb](https://github.com/higgsfield-ai/higgsfield/blob/main/tutorials/text_format.ipynb))
 
 ### Format: Prompt Completion
-```json
+```python
 prompt_completion = {
         "prompt": [
             "prompt1",
@@ -30,7 +30,7 @@ prompt_completion = {
 ```
 
 ### Format: ChatGPT
-```json
+```python
 chatgpt_format = {
     "chatgpt": [
         [
@@ -43,7 +43,7 @@ chatgpt_format = {
 ```
 
 ### Format: Text
-```json
+```python
 text_format = {
     "text": ["text"]
 }
