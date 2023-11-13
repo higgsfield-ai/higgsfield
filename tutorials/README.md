@@ -15,6 +15,12 @@ We provide a tutorial on how to convert your dataset to each format.
 - **ChatGPT format** ([https://github.com/higgsfield-ai/higgsfield/tutorials/chatgpt.ipynb](https://github.com/higgsfield-ai/higgsfield/blob/main/tutorials/chatgpt.ipynb))
 - **Plain Text format** ([https://github.com/higgsfield-ai/higgsfield/tutorials/text_format.ipynb](https://github.com/higgsfield-ai/higgsfield/blob/main/tutorials/text_format.ipynb))
 
+Upload your datasets to Hugging Face:
+```python
+from datasets import Dataset
+dataset = Dataset.from_dict(format)
+dataset.push_to_hub("<HUGGING_FACE_DATASET_REPO>", token="<HUGGING_FACE_TOKEN>") # Example: 'test/test_dataset'
+```
 ### Format: Prompt Completion
 ```python
 prompt_completion = {
