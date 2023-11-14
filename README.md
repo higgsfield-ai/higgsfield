@@ -84,6 +84,7 @@ You can use whatever you want, whenever you want. We just introduce a simple int
 
 **Clouds we have tested on:**
 
+- Azure
 - LambdaLabs
 - FluidStack
 
