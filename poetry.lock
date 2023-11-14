@@ -37,13 +37,13 @@ anyio = ">=3.4.0,<4.0.0"
 
 [[package]]
 name = "asyncssh"
-version = "2.14.0"
+version = "2.14.1"
 description = "AsyncSSH: Asynchronous SSHv2 client and server library"
 optional = false
 python-versions = ">= 3.6"
 files = [
-    {file = "asyncssh-2.14.0-py3-none-any.whl", hash = "sha256:1d112a93f926069932fecd9842f206fdd023eb860aea4efc95f92b5e031d7fe0"},
-    {file = "asyncssh-2.14.0.tar.gz", hash = "sha256:e03ef2d131fbb4371b4018718452ce8c735a48edfe0139d2abdce4c187a459c3"},
+    {file = "asyncssh-2.14.1-py3-none-any.whl", hash = "sha256:9611368f5db62d9adb0deaa3ff37080277f142acd101693a3a9d2b47a84d0e8b"},
+    {file = "asyncssh-2.14.1.tar.gz", hash = "sha256:1ac31c333a0d83c88831523245500caa814503423741b0e465339ef6da5b5e29"},
 ]
 
 [package.dependencies]
