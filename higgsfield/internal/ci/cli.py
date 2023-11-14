@@ -54,7 +54,8 @@ def decode_secrets(env: str):
 
 
 @click.command("setup-nodes")
-def setup_nodes():
+@click.option('--invoker_tag', default="v0.0.1", help="Tag of the invoker binary to use")
+def setup_nodes(invoker_tag: str = "v0.0.1"):
     wd = wd_path()
     app_config = AppConfig.from_path(wd)
 
@@ -74,7 +75,7 @@ def setup_nodes():
 
     app_config.set_git_origin_url(project_path)
 
-    setup = Setup(app_config, project_path)
+    setup = Setup(app_config, project_path, invoker_tag)
 
     try:
         setup.create_ssh_key_file()
