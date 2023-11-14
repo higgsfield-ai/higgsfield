@@ -1,5 +1,9 @@
 # Dataset formats
 
+[https://github.com/higgsfield-ai/tutorials/raw/main/dataset_upload_tutorial_1080.mp4](https://github.com/higgsfield-ai/higgsfield/assets/14979358/ab040041-9cf5-498b-a06d-b9d2a5fc02df
+)
+
+
 We support the following dataset formats:
 
 - **Prompt Completion format**
