@@ -1,7 +1,7 @@
 from typing import Any, Dict, List
 from pathlib import Path
 
-from fabric.config import os
+import os
 from higgsfield.internal.experiment.decorator import _experiments
 from higgsfield.internal.experiment.params import parse_kwargs_to_params
 from higgsfield.internal.experiment.builder import _source_experiments
