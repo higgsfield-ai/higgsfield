@@ -55,7 +55,7 @@ def init(wd: Path, project_name: str):
 
     hf_deploy_ssh_folder = Path.home() / ".ssh/higgsfield/"
     hf_deploy_ssh_folder.mkdir(parents=True, exist_ok=True)
-    priv, pub, _ = generate_deploy_keys()
+    priv, pub = generate_deploy_keys()
     (hf_deploy_ssh_folder / f"{project_name}-github-deploy.key").write_bytes(priv)
 
     # set permissions to 400
