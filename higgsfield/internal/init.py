@@ -3,7 +3,8 @@ import os
 import io
 
 from cryptography.hazmat.primitives import serialization, asymmetric
-import paramiko
+from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
+
 from jinja2 import Environment, FileSystemLoader
 from .util import templates_path, ROOT_DIR
 
@@ -68,20 +69,20 @@ def init(wd: Path, project_name: str):
     )
 
 
-def generate_deploy_keys() -> Tuple[bytes, bytes, paramiko.Ed25519Key]:
-    c_ed25519key = asymmetric.ed25519.Ed25519PrivateKey.generate()  # type: ignore
-    privpem = c_ed25519key.private_bytes(
+def generate_deploy_keys() -> Tuple[bytes, bytes]:
+    private_key = Ed25519PrivateKey.generate()
+
+    public_key = private_key.public_key()
+
+    private_bytes = private_key.private_bytes(
         encoding=serialization.Encoding.PEM,
-        format=serialization.PrivateFormat.OpenSSH,
+        format=serialization.PrivateFormat.PKCS8,
         encryption_algorithm=serialization.NoEncryption(),
     )
-    priv_obj = io.StringIO(privpem.decode())
-    p_ed25519key = paramiko.Ed25519Key.from_private_key(priv_obj)
 
-    pub = c_ed25519key.public_key()
-    openssh_pub = pub.public_bytes(
-        encoding=serialization.Encoding.OpenSSH,
-        format=serialization.PublicFormat.OpenSSH,
+    public_bytes = public_key.public_bytes(
+        encoding=serialization.Encoding.PEM,
+        format=serialization.PublicFormat.SubjectPublicKeyInfo,
     )
 
-    return privpem, openssh_pub, p_ed25519key
+    return private_bytes, public_bytes
