@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Union, Dict
 from pathlib import Path
 from importlib.machinery import SourceFileLoader
 import os
@@ -32,10 +32,11 @@ class AppConfig:
     user: str
     key: str
     port: int
-    number_of_processes_per_node: int
+    number_of_processes_per_node: Union[int, Dict[str, List[int]]]
 
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
+
     @classmethod
     def from_path(cls, path: Path) -> "AppConfig":
         config_path = path / "src" / "config.py"
@@ -62,7 +63,9 @@ class AppConfig:
             raise ValueError("Please don't use root as the user")
 
         port = module.__dict__["HOSTS_PORT"]
-        number_of_processes_per_node = module.__dict__["NUMBER_OF_PROCESSES_PER_NODE"]
+        number_of_processes_per_node = cls._sanitize_noppn(
+            hosts, module.__dict__["NUMBER_OF_PROCESSES_PER_NODE"]
+        )
 
         key = get_key_from_path_or_key(os.getenv("SSH_KEY"))
 
@@ -75,6 +78,35 @@ class AppConfig:
             port=port,
             number_of_processes_per_node=number_of_processes_per_node,
         )
+
+    @classmethod
+    def _sanitize_noppn(
+        cls, hosts, number_of_processes_per_node
+    ) -> Union[int, Dict[str, List[int]]]:
+        if isinstance(number_of_processes_per_node, dict):
+            for k, v in number_of_processes_per_node.items():
+                if k not in hosts:
+                    raise ValueError(
+                        f"Host given in NUMBER_OF_PROCESSES_PER_NODE must be present in HOSTS, got {k}"
+                    )
+                if not isinstance(v, list):
+                    raise ValueError(
+                        f"NUMBER_OF_PROCESSES_PER_NODE should be a list of integers (gpu IDs supplied to Docker), got {v} for {k}"
+                    )
+
+        if not isinstance(number_of_processes_per_node, dict) and not isinstance(
+            number_of_processes_per_node, int
+        ):
+            raise ValueError(
+                "NUMBER_OF_PROCESSES_PER_NODE should be either a dict or an int"
+            )
+
+        if isinstance(number_of_processes_per_node, int):
+            return {
+                host: [i for i in range(number_of_processes_per_node)] for host in hosts
+            }
+
+        return number_of_processes_per_node
 
     def get_git_origin_url(self, path) -> Optional[str]:
         if self.github_repo_url is not None:
@@ -106,7 +138,7 @@ class AppConfig:
         with open(config_path, "w") as f:
             # Write back the modified lines
             f.writelines(lines)
-    
+
             if lines[-1] != "\n":
                 f.write("\n")
 

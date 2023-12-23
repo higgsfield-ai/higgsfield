@@ -57,7 +57,9 @@ HOSTS_USER = "ubuntu"
 HOSTS_PORT = 22
 
 # Number of processes per node. Depends on the amount of GPUs you have on each node.
-NUM_PROCESSES = 4
+NUMBER_OF_PROCESSES_PER_NODE = {
+    HOSTS[0]: [1, 2]
+}
 
 # You can list other environment variables here.
 WAN_DB_TOKEN = os.environ.get("WAN_DB_TOKEN", None)
