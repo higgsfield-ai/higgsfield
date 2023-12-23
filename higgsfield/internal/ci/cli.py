@@ -21,7 +21,8 @@ def hosts():
 def proc_per_node():
     wd = wd_path()
     app_config = AppConfig.from_path(wd)
-    click.echo(str(app_config.number_of_processes_per_node))
+    to_echo = json.dumps(app_config.number_of_processes_per_node)
+    click.echo(str(to_echo))
 
 
 @click.command("get-ssh-details")
