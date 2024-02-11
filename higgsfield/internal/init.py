@@ -76,13 +76,13 @@ def generate_deploy_keys() -> Tuple[bytes, bytes]:
 
     private_bytes = private_key.private_bytes(
         encoding=serialization.Encoding.PEM,
-        format=serialization.PrivateFormat.PKCS8,
+        format=serialization.PrivateFormat.OpenSSH,
         encryption_algorithm=serialization.NoEncryption(),
     )
 
     public_bytes = public_key.public_bytes(
-        encoding=serialization.Encoding.PEM,
-        format=serialization.PublicFormat.SubjectPublicKeyInfo,
+        encoding=serialization.Encoding.OpenSSH,
+        format=serialization.PublicFormat.OpenSSH,
     )
 
     return private_bytes, public_bytes
