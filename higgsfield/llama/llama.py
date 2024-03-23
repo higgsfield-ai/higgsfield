@@ -59,14 +59,14 @@ class Llama(FSDP):
         if not checkpoint_path:
             if cpu_init_rank0: 
                 if rank == 0:
-                    model = LlamaForCausalLM.from_pretrained(model_name)
+                    model = LlamaForCausalLM.from_pretrained(model_name, use_cache=False)
                 else:
-                    llama_config = LlamaConfig.from_pretrained(model_name)
+                    llama_config = LlamaConfig.from_pretrained(model_name, use_cache=False)
                         
                     with torch.device('meta'):
                         model = LlamaForCausalLM(llama_config)
             else:
-                model = LlamaForCausalLM.from_pretrained(model_name)
+                model = LlamaForCausalLM.from_pretrained(model_name, use_cache=False)
         else:
             if not cpu_init_rank0:
                 print("Ignoring cpu_init_rank0=False while loading model from checkpoint path")
