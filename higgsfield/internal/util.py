@@ -9,8 +9,8 @@ regex = re.compile("^[a-zA-Z_][a-zA-Z0-9_]*$")
 
 
 def check_name(name: str):
-    if len(name) < 1 or len(name) > 20:
-        raise ValueError("Name must be between 1 and 20 characters long")
+    if len(name) < 1 or len(name) > 30:
+        raise ValueError("Name must be between 1 and 30 characters long")
 
     if not regex.match(name):
         raise ValueError("Name must match regex ^[a-zA-Z_][a-zA-Z0-9_]*$")
