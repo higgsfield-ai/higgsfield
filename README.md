@@ -18,7 +18,7 @@ Higgsfield serves as a GPU workload manager and machine learning framework with 
 ## Install
 
 ```bash
-$ pip install higgsfield==0.0.3
+$ pip install higgsfield==0.0.4-rc
 ```
 
 
