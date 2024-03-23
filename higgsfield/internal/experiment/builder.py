@@ -105,6 +105,18 @@ class DeployBuilder(ActionBuilder):
 class ExperimentBuilder(ActionBuilder):
     template_name = "experiment_action.j2"
 
+    def of_master_host(self) -> str:
+        master_host = self.app_config.master_host
+        if master_host is None:
+            return ""
+        return f"--master_host {master_host}"
+
+    def of_no_python(self) -> str:
+        no_python = self.app_config.no_python
+        if no_python is None:
+            return ""
+        return f"--no_python {no_python}"
+
     def generate(self, experiment_name: str, params: List[Param]):
         (self.wf_dir / f"run_{experiment_name}.yml").write_text(
             self.template.render(
@@ -113,12 +125,14 @@ class ExperimentBuilder(ActionBuilder):
                 project_name=self.app_config.name,
                 params=build_gh_action_inputs(params),
                 rest=build_run_params(params),
+                invoker_exec=self.app_config.invoker_exec,
+                of_master_host=self.of_master_host(),
+                of_no_python=self.of_no_python(),
                 env_gen=env_keys_as_action(
                     self.wf_dir.parent.parent / "env", echo_indent
                 ),
             )
         )
-        
 
         print("Updated experiment action", experiment_name)
 
@@ -130,7 +144,13 @@ def _source_experiments(base_path: Path):
     the same dependencies (aka environment) as the docker container.
     """
     for file in base_path.glob("**/*.py"):
-        module_name = os.path.basename(file).split(".py")[0].split(".py")[0].replace(" ", "_").replace("-", "_")
+        module_name = (
+            os.path.basename(file)
+            .split(".py")[0]
+            .split(".py")[0]
+            .replace(" ", "_")
+            .replace("-", "_")
+        )
         SourceFileLoader(module_name, str(file)).load_module()
 
 

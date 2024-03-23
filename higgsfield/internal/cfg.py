@@ -32,10 +32,14 @@ class AppConfig:
     user: str
     key: str
     port: int
+    master_host: Optional[str]
+    no_python: Optional[str]
+    invoker_exec: str = "invoker"
     number_of_processes_per_node: int
 
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
+
     @classmethod
     def from_path(cls, path: Path) -> "AppConfig":
         config_path = path / "src" / "config.py"
@@ -66,6 +70,10 @@ class AppConfig:
 
         key = get_key_from_path_or_key(os.getenv("SSH_KEY"))
 
+        master_host = module.__dict__.get("MASTER_HOST", None)
+        no_python = module.__dict__.get("NO_PYTHON", None)
+        invoker_exec = module.__dict__.get("INVOKER_EXEC", "invoker")
+
         return AppConfig(
             name=name,
             github_repo_url=github_repo_url,
@@ -74,6 +82,9 @@ class AppConfig:
             key=key,
             port=port,
             number_of_processes_per_node=number_of_processes_per_node,
+            master_host=master_host,
+            no_python=no_python,
+            invoker_exec=invoker_exec,
         )
 
     def get_git_origin_url(self, path) -> Optional[str]:
@@ -106,7 +117,7 @@ class AppConfig:
         with open(config_path, "w") as f:
             # Write back the modified lines
             f.writelines(lines)
-    
+
             if lines[-1] != "\n":
                 f.write("\n")
 

@@ -37,8 +37,7 @@ jobs:
         host: ${{ env.HOSTS }}
         username: ${{ env.USER }}
         key: ${{ secrets.SSH_KEY }}
-        port: ${{ env.PORT }}
-        sync: true {% endraw %}
+        port: ${{ env.PORT }} {% endraw %}
         script: | 
           mkdir -p ~/higgsfield/
           cd ~/higgsfield
@@ -48,5 +47,6 @@ jobs:
            git reset --hard origin/main && \
            git pull origin main) || git clone {{ keyed_repo_url }} {{ project_name }} || rm -rf ~/higgsfield/{{ project_name }} && git clone {{ keyed_repo_url }} {{ project_name }}
           
+          cd ~/higgsfield/{{ project_name }}
           echo "SSH_KEY=NOTHING" > env
 {{ env_gen }}

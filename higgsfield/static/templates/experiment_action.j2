@@ -68,7 +68,7 @@ jobs:
           cd ~/higgsfield/{% endraw %}{{ project_name }}
           echo "SSH_KEY=NOTHING" > env
 {{ env_gen }}
-          invoker experiment run --project_name {{ project_name }} --experiment_name {{ experiment_name }} {% raw %} --run_name ${{ env.RUN_NAME }} --port ${{ env.RUN_PORT }} --nproc_per_node ${{ env.NPROC_PER_NODE }} --hosts ${{ env.HOSTS }} {% endraw %} {{ rest }}
+          {{ invoker_exec }} experiment run {{ of_master_host }} {{ of_no_python }} --project_name {{ project_name }} --experiment_name {{ experiment_name }} {% raw %} --run_name ${{ env.RUN_NAME }} --port ${{ env.RUN_PORT }} --nproc_per_node ${{ env.NPROC_PER_NODE }} --hosts ${{ env.HOSTS }} {% endraw %} {{ rest }}
 
 
 
