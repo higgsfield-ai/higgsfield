@@ -156,6 +156,8 @@ def build_experiment_def(
                 experiment = dec
 
         if type(dec) == Paramdec:
+            if "name" not in dec.arg_pairs:
+                raise ValueError("param decorator must have a name")
             if dec.arg_pairs["name"] in params:
                 raise ValueError(
                     f'more than one param with the same name {dec.arg_pairs["name"]} is defined'
