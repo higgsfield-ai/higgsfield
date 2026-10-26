@@ -13,7 +13,7 @@ from higgsfield.internal.experiment.builder import header
 docker_install_script = '''/bin/bash -c "$(curl -fsSL https://gist.githubusercontent.com/arpanetus/1c1210b9e432a04dcfb494725a407a70/raw/5d47baa19b7100261a2368a43ace610528e0dfa2/install.sh)"'''
 
 def invoker_install_script(tag: str) -> str:
-    return f"""wget https://github.com/ml-doom/invoker/releases/download/{tag}/invoker-{tag}-linux-amd64.tar.gz && \
+    return f"""wget https://github.com/higgsfield-ai/invoker/releases/download/{tag}/invoker-{tag}-linux-amd64.tar.gz && \
         tar -xvf invoker-{tag}-linux-amd64.tar.gz && \
         sudo mv invoker /usr/bin/invoker && \
         rm invoker-{tag}-linux-amd64.tar.gz"""
