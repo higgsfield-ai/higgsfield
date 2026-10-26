@@ -32,7 +32,7 @@ jobs:
       uses: actions/checkout@v3
     - name: Install invoker
       run: |
-        wget https://github.com/ml-doom/invoker/releases/download/latest/invoker-latest-linux-amd64.tar.gz
+        wget https://github.com/higgsfield-ai/invoker/releases/download/latest/invoker-latest-linux-amd64.tar.gz
         tar -xvf invoker-latest-linux-amd64.tar.gz
         sudo mv invoker /usr/bin/invoker
         rm invoker-latest-linux-amd64.tar.gz
