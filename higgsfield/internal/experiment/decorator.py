@@ -63,12 +63,12 @@ class ExperimentDecorator:
                 self.params = list(func.param_set)
             self.train = func.func
 
-            return
+            return func.func
 
         if callable(func) and len(func.__code__.co_varnames) >= 1:
             self.train = func
 
-            return
+            return func
         else:
             raise ValueError(
                 f"Experiment decorator can only be applied to a function that accepts one argument, "
