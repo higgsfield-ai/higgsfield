@@ -18,6 +18,27 @@ _arg_type_set = {
     bool,
 }
 
+_true_strings = {"true", "1", "yes", "y", "on"}
+_false_strings = {"false", "0", "no", "n", "off"}
+
+
+def _to_bool(value: Any) -> bool:
+    # bool("false") is True, so string values (e.g. from GitHub Actions inputs) need explicit parsing
+    if isinstance(value, str):
+        normalized = value.strip().lower()
+        if normalized in _true_strings:
+            return True
+        if normalized in _false_strings:
+            return False
+        raise ValueError(f"{value!r} is not a boolean")
+    return bool(value)
+
+
+def convert_value(arg_type: Type, value: Any) -> Any:
+    if arg_type is bool:
+        return _to_bool(value)
+    return arg_type(value)
+
 
 def reset_values(values: Dict[str, Any]):
     if "name" not in values:
@@ -62,14 +83,14 @@ class Param:
 
         try:
             if default is not None:
-                values["default"] = arg_type(default)
+                values["default"] = convert_value(arg_type, default)
         except Exception as e:
             raise ValueError(
                 f"Param default {default} cannot be converted to type {arg_type}"
             ) from e
 
         if options := values.get("options"):
-            values["options"] = [arg_type(opt) for opt in options]
+            values["options"] = [convert_value(arg_type, opt) for opt in options]
             if default is None:
                 values["default"] = values["options"][0]
                 default = values["default"]
@@ -84,7 +105,7 @@ class Param:
             if self.type is None:
                 self.type = str
 
-            value = self.type(value)
+            value = convert_value(self.type, value)
         except Exception as e:
             raise ValueError(
                 f"Param value {value} cannot be converted to type {self.type}"
@@ -184,6 +205,6 @@ def parse_kwargs_to_params(
 
     prepare = ArgParams()
     for key, to_set in params_to_set.items():
-        setattr(prepare, key, to_set.param.type(to_set.value))
+        setattr(prepare, key, convert_value(to_set.param.type, to_set.value))
 
     return prepare
