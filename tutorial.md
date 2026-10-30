@@ -44,7 +44,7 @@ class AlpacaDataset:
         
         instruction = item["instruction"]
         
-        if "input" in item.keys():
+        if "input" not in item.keys():
             prompt = (
                 "Below is an instruction that describes a task. "
                 "Write a response that appropriately completes the request.\n\n"
