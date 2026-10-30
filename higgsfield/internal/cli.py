@@ -108,8 +108,7 @@ def show_deploy_key():
     if not deploy_key_path.exists():
         raise ValueError("No deploy key found, file an issue on github")
 
-    with deploy_key_path as f:
-        click.echo(f.read_text() + "\n")
+    click.echo(deploy_key_path.read_text() + "\n")
 
 
 @click.group("ci")

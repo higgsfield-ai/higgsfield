@@ -82,6 +82,12 @@ You can use whatever you want, whenever you want. We just introduce a simple int
 - SSH access
 - Non-root user with sudo privileges (no-password is required)
 
+**Library versions:**
+
+- The CLI works on Python 3.8–3.14.
+- The training modules (`higgsfield.llama`, `higgsfield.mistral`, `higgsfield.checkpoint`) rely on `optimum.bettertransformer`, which newer `optimum`/`transformers` releases removed. Use `optimum==1.13.2` with `transformers==4.34.0` (pinned in the project template's `requirements.txt`).
+- Training requires NVIDIA GPUs (CUDA); it cannot run on macOS.
+
 **Clouds we have tested on:**
 
 - Azure
